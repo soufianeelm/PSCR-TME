@@ -1,3 +1,5 @@
+// FAUTE : include du header manquante
+#include "List.h"
 
 namespace pr {
 
@@ -9,15 +11,17 @@ size_t Chainon::length() {
 	if (next != nullptr) {
 		len += next->length();
 	}
-	return length();
+	// FAUTE : mauvais return
+	return len;
 }
 
 void Chainon::print (std::ostream & os) {
 	os << data ;
 	if (next != nullptr) {
 		os << ", ";
+		// FAUTE : boucle récursive infinie
+		next->print(os);
 	}
-	next->print(os);
 }
 
 // ******************  List
@@ -45,7 +49,7 @@ void List::push_front (const std::string& val) {
 	tete = new Chainon(val,tete);
 }
 
-bool empty() {
+bool List::empty() {
 	return tete == nullptr;
 }
 
@@ -57,9 +61,7 @@ size_t List::size() const {
 	}
 }
 
-} // namespace pr
-
-std::ostream & operator<< (std::ostream & os, const pr::List & vec)
+std::ostream & operator<< (std::ostream & os, const List & vec)
 {
 	os << "[";
 	if (vec.tete != nullptr) {
@@ -69,3 +71,5 @@ std::ostream & operator<< (std::ostream & os, const pr::List & vec)
 	return os;
 }
 
+// FAUTE : namespace ne prenait pas en compte la dernière fonction
+} // namespace pr

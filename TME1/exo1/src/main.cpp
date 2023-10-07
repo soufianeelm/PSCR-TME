@@ -6,10 +6,13 @@
 int main () {
 
 	std::string abc = "abc";
-	char * str = new char [3];
+
+	// FAUTE : caractère de fin manquant
+	char * str = new char [4];
 	str[0] = 'a';
 	str[1] = 'b';
 	str[2] = 'c';
+	str[3] = '\0';
 	size_t i = 0;
 
 	if (! strcmp (str, abc.c_str())) {
@@ -24,15 +27,13 @@ int main () {
 	std::cout << "Taille : " << list.size() << std::endl;
 
 	// Affiche à l'envers
-	for (i= list.size() - 1 ; i >= 0 ; i--) {
-		std::cout << "elt " << i << ": " << list[i] << std::endl;
+
+	// FAUTE : size_t ne peut pas prendre de valeur négative
+	for (i= list.size(); i > 0 ; i--) {
+		std::cout << "elt " << i << ": " << list[i-1] << std::endl;
 	}
 
-	// liberer les char de la chaine
-	for (char *cp = str ; *cp ; cp++) {
-		delete cp;
-	}
 	// et la chaine elle meme
-	delete str;
+	delete [] str;
 
 }

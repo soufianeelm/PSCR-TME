@@ -13,7 +13,8 @@ public :
 	Chainon * next;
 	Chainon (const std::string & data, Chainon * next=nullptr);
 	size_t length() ;
-	void print (std::ostream & os) const;
+	// FAUTE : const en trop
+	void print (std::ostream & os);
 };
 
 class List {
@@ -35,17 +36,19 @@ public:
 
 	void push_back (const std::string& val) ;
 
-	void push_front (const std::string& val) {
-		tete = new Chainon(val,tete);
-	}
+	// FAUTE : code au mauvais endroit
+	void push_front (const std::string& val);
 
 	bool empty() ;
 
 	size_t size() const ;
+
+	// FAUTE : opération non mit en amie (ou en méthode)
+	friend std::ostream & operator<< (std::ostream & os, const List & vec) ;
+
 };
 
 
-std::ostream & operator<< (std::ostream & os, const List & vec) ;
 
 } /* namespace pr */
 
