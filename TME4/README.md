@@ -1,34 +1,57 @@
-# TME sujet semaine 4 : thread, atomic, mutex
+**TME2 Report**
 
-[Programmation Système Répartie et Concurrente : Homepage](https://pages.lip6.fr/Yann.Thierry-Mieg/PR)
+---
 
-[Sujet du TME en PDF](https://pages.lip6.fr/Yann.Thierry-Mieg/PR/tdtme4.pdf)
+#### Question 2
 
-To use the project :
-*  Go to an empty folder (not your workspace)
-```
-mkdir -p tme4 ; cd tme4 ;
+Le comportement actuel est correct, car les méthodes `debiter` et `crediter` sont protégées par les mutex des comptes. Cependant, la méthode `transfert` elle-même n'est pas protégée.
 
-```
-*  Clone the project, 
-```
-git clone https://github.com/yanntm/PSCR-TME4.git
+---
 
-```
-* Reconfigure project.
-This project is compatible with [autoconf/automake](https://www.lrde.epita.fr/~adl/autotools.html), after cloning, use the mantra 
-```
-cd PSCR-TME4
-autoreconf -vfi
-./configure 
-```
-in the root folder to build makefiles for your project.
-* Import in eclipse or open with your favorite editor
-   * For eclipse, `File->Import->General->Existing projects into workspace` and point the folder tme4.
-* To build, simply run `make` in the folder 
-   * For eclipse use the "hammer" tool or "Project->Build Project".
+#### Question 3
 
+Ajout d'une méthode `getMutex` dans la classe `Compte`.
 
-Look at the contents of "configure.ac", "Makefile.am" and "src/Makefile.am" which are the input to autotools, and are relatively simple and easy to read.
+---
 
-(c) Sorbonne Université 2018-2019
+#### Question 4
+
+Il est nécessaire de verrouiller les mutex des deux comptes concernés par le transfert au sein de la méthode `transfert` avant d'effectuer le transfert.
+
+---
+
+#### Question 5
+
+Le premier thread verrouille deux fois le même mutex, une fois dans `transfert` et une fois dans `debiter`. Pour éviter cela, nous devons utiliser des `recursive_mutex` à la place.
+
+---
+
+#### Question 6
+
+Il y a parfois un interblocage entre deux threads ayant les mêmes comptes créditeurs et débiteurs mais dans des sens opposés, car les mutex ne sont pas verrouillés dans le même ordre. La correction consiste à verrouiller les mutex dans l'ordre du système.
+
+---
+
+#### Question 7
+
+Non, même si `getSolde` est protégé par un mutex, l'accès concurrent au solde des comptes peut fausser le résultat final. Tant qu'il y a un thread en cours d'exécution, le solde de n'importe quel compte peut changer, même s'il a déjà été comptabilisé.
+
+---
+
+#### Question 8
+
+Bilan comptable incorrect : attendu 5000, obtenu : 4677
+Échec
+
+---
+
+#### Question 9
+
+Ajoutons un mutex dans la classe `Banque` et mettons en place les synchronisations nécessaires pour que le thread comptable obtienne toujours les bons résultats.
+
+---
+
+#### Question 10
+
+Avec un seul mutex dans la banque, la concurrence entre les threads de transfert n'est plus possible. Proposons une approche alternative réutilisant les verrous de compte plutôt que d'en avoir un seul. Nous devons empêcher les threads de transfert d'accéder aux comptes que le comptable a déjà vus et crédités dans son bilan, sans introduire de deadlocks.
+
