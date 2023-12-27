@@ -30,6 +30,7 @@ bool Banque::comptabiliser (int attendu) const {
 	int bilan = 0;
 	int id = 0;
 	for (const auto & compte : comptes) {
+		unique_lock<recursive_mutex> g(compte.getMutex());
 		comptesVus.insert(&compte);
 		if (compte.getSolde() < 0) {
 			cout << "Compte " << id << " en négatif : " << compte.getSolde() << endl;
