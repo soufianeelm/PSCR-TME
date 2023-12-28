@@ -9,7 +9,7 @@ namespace pr {
 class Banque {
 	mutable std::unordered_set<const Compte*> comptesVus;
 	typedef std::vector<Compte> comptes_t;
-	comptes_t comptes;
+	mutable comptes_t comptes;
 public :
 	Banque (size_t ncomptes, size_t solde) : comptes (ncomptes, Compte(solde)){
 	}
