@@ -6,12 +6,26 @@
 
 10 processus
 
-pere  -fils1 "1:3" -pfils1 "1:0"
-                   -pfils2 "2:3" -ppfils1 "1:0"
-     	    	                 -ppfils2 "2:0"
-                                 -ppfils3 "3:3" -pppfils1 "1:0"
-     	    	                                -pppfils2 "2:0"
-     	    	                                -pppfils3 "3:0"
+pere
+│
+└── fils1 "1:3"
+    │
+    ├── pfils1 "1:0"
+    │
+    └── pfils2 "2:3"
+        │
+        └── ppfils1 "1:0"
+        │
+        └── ppfils2 "2:0"
+        │
+        └── ppfils3 "3:3"
+            │           
+            └── pppfils1 "1:0"
+            │
+            └── pppfils2 "2:0"
+            │
+            └── pppfils3 "3:0" 
+            
 ---
 
 #### Question 6
