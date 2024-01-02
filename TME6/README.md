@@ -5,7 +5,7 @@
 #### Question 1
 
 10 processus
-
+'''
 pere
 │
 └── fils1 "1:3"
@@ -19,12 +19,13 @@ pere
         └── ppfils2 "2:0"
         │
         └── ppfils3 "3:3"
-            │           
+            │
             └── pppfils1 "1:0"
             │
             └── pppfils2 "2:0"
             │
-            └── pppfils3 "3:0" 
+            └── pppfils3 "3:0"
+'''
             
 ---
 
