@@ -53,5 +53,5 @@ Ajoutons un mutex dans la classe `Banque` et mettons en place les synchronisatio
 
 #### Question 10
 
-Avec seulement un seul mutex dans la banque, la concurrence entre les threads de transfert n'est plus possible. Proposons une approche alternative réutilisant les verrous de compte plutôt que d'en avoir un seul. Nous devons empêcher les threads de transfert d'accéder aux comptes que le comptable a déjà vus et crédités dans son bilan, sans introduire de deadlocks.
+Avec un seul mutex dans la banque, la concurrence entre les threads de transfert n'est plus possible. Proposons une approche alternative réutilisant les verrous de compte plutôt que d'en avoir un seul. Nous devons empêcher les threads de transfert d'accéder aux comptes que le comptable a déjà vus et crédités dans son bilan, sans introduire de deadlocks.
 
