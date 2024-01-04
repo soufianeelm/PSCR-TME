@@ -19,6 +19,37 @@ public :
 
 	// stoppe le serveur
 	void stopServer () ;
+
+    void handleclient(pr::Socket sc){
+        int i;
+        char buf[1024];
+        read(sc.getFD(), &i, sizeof(i));
+        i *= 2;
+        write(sc, buf, sizeof(buf));
+        sc.close();
+    }
+
+    TCPServer::~TCPServer(){
+        for(auto &e : threads) {
+            e.join();
+        }
+    }
+
+    TCPServer::startServer(int port){
+        serv = ServerSocket(port);
+        if(!serv.isOpen()){
+            exit(EXIT_FAILURE);
+        }
+
+        while(true){
+            cout << "En attente" << endl;
+            Socket sc = serv.accept();
+            handleClient(sc);
+            threads.emplace_back([](Socket sc){
+                handleClient(sc);
+            }, sc);
+        }
+    }
 };
 
 } // ns pr
